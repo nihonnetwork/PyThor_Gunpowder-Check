@@ -6,7 +6,7 @@ Redm script to check gunpowder on players as a lawman
 - Add it to your resources folder
 - Add `ensure PyThor_Gunpowder-Check` to your server.cfg
 
-**Dependecies **
+**Dependecies**
 - vorp-core
 - vorp-progressbar
 
