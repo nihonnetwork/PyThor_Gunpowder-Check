@@ -16,4 +16,7 @@ to check a player simply go near him and use the command in the config with the 
 example: /gp 1
 you will get notify if the player clean or not.
 
+**Showcase**
+https://www.youtube.com/watch?v=nEovqcIbTaI
+
 PLEASE DO NOT CHANGE THE RESOURCE NAME TO GIVE CREDIT (please)!
