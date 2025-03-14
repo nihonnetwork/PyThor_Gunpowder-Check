@@ -1,16 +1,16 @@
 # PyThor_Gunpowder-Check
 Redm script to check gunpowder on players as a lawman
 
-How to use the script in your server:
+**How to use the script in your server:**
 
 - Add it to your resources folder
 - Add `ensure PyThor_Gunpowder-Check` to your server.cfg
 
-Dependecies 
+**Dependecies **
 - vorp-core
 - vorp-progressbar
 
-Description:
+**Description:**
 
 to check a player simply go near him and use the command in the config with the player ID 
 example: /gp 1
