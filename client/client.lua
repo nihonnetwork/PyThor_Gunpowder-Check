@@ -29,13 +29,19 @@ local animName = "base"
 RequestAnimDict(animDict)
 while not HasAnimDictLoaded(animDict) do Citizen.Wait(100) end
 
--- checking command
-RegisterCommand(command, function(source, args)
+Citizen.CreateThread(function()
+    repeat Wait(5000) until LocalPlayer.state.IsInSession
+    if not LocalPlayer.state.Character then
+        repeat Wait(1000) until LocalPlayer.state.Character
+    end
     TriggerServerEvent("GP:CheckJob")
     AddEventHandler("GP:CheckJobResult", function(is_law)
         IsLaw = is_law
     end)
+end)
 
+-- checking command
+RegisterCommand(command, function(source, args)
     local targetId = tonumber(args[1])
 
     if not IsLaw then
@@ -62,9 +68,9 @@ RegisterCommand(command, function(source, args)
         TaskPlayAnim(PlayerPedId(), animDict, animName, 8.0, -8.0, 5000, 0, 0, false, false, false)
         progressbar.start("Checking gunpowder", 5000, function()
             if DecorExistOn(targetPed, "HasShot") and DecorGetBool(targetPed, "HasShot") then
-                Core.NotifyObjective("This person " .. " has fired a weapon recently!", 5000)
+                Core.NotifyObjective("This person " .. "has fired a weapon recently!", 5000)
             else
-                Core.NotifyObjective("This person " .. " is clean.", 5000)
+                Core.NotifyObjective("This person " .. "is clean.", 5000)
             end
         end, 'innercircle')
     else

@@ -15,5 +15,5 @@ server_scripts { 'server/server.lua' }
 
 version '1.1'
 vorp_checker 'yes'
-vorp_name '^4PyThor_Gunpowder-Check ^4version Check^3'
+vorp_name '^5PyThor_Gunpowder-Check ^4version Check^3'
 vorp_github 'https://github.com/PyThor97/PyThor_Gunpowder-Check'
