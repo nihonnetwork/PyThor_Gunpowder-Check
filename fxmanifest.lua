@@ -7,8 +7,13 @@ author 'PyThor'
 description 'RedM script to check gunpowder'
 lua54 'yes'
 
+shared_scripts { 'config.lua' }
+
 client_script { 'client/client.lua' }
 
 server_scripts { 'server/server.lua' }
 
-shared_scripts { 'config.lua' }
+version '1.0.1'
+vorp_checker 'yes'
+vorp_name '^4PyThor_Gunpowder-Check ^4version Check^3'
+vorp_github 'https://github.com/PyThor97/PyThor_Gunpowder-Check'

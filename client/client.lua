@@ -22,27 +22,20 @@ end
 
 -- global vars
 local IsLaw = false
+local command = Config.Command
 
 local animDict = "script_amb@stores@store_waist_stern_guy"
 local animName = "base"
 RequestAnimDict(animDict)
 while not HasAnimDictLoaded(animDict) do Citizen.Wait(100) end
 
-while not LocalPlayer.state.IsInSession do
-    Wait(5000)
-end
-
-TriggerServerEvent("GP:CheckJob", PlayerPedId())
-AddEventHandler("GP:CheckJobResult", function(is_law)
-    if not Config.JobsAllowed then
-        IsLaw = true
-    else
-        IsLaw = is_law
-    end
-end)
-
 -- checking command
-RegisterCommand(Config.command, function(source, args)
+RegisterCommand(command, function(source, args)
+    TriggerServerEvent("GP:CheckJob")
+    AddEventHandler("GP:CheckJobResult", function(is_law)
+        IsLaw = is_law
+    end)
+
     local targetId = tonumber(args[1])
 
     if not IsLaw then
@@ -79,7 +72,7 @@ RegisterCommand(Config.command, function(source, args)
     end
 end, false)
 
-local lassoWeapons = {
+local whitelist_weapons = {
     0x7A8A724A,
     0x7BBD1FF6,
     0xb5fd67cd,
@@ -87,8 +80,8 @@ local lassoWeapons = {
     -2002235300
 }
 
-local function isWeaponLasso(weaponHash)
-    for _, lassoHash in ipairs(lassoWeapons) do
+local function isWeaponWhitelist(weaponHash)
+    for _, lassoHash in ipairs(whitelist_weapons) do
         if weaponHash == lassoHash then
             return true
         end
@@ -104,16 +97,16 @@ Citizen.CreateThread(function()
         if IsPedShooting(player) then
             local _, weaponHash = GetCurrentPedWeapon(player, true)
             Dev(weaponHash)
-            if not isWeaponLasso(weaponHash) then
+            if not isWeaponWhitelist(weaponHash) then
                 Dev("Player shot a weapon (not lasso)")
                 DecorSetBool(player, "HasShot", true)
 
                 Core.NotifyRightTip("You got gunpowder residue on you.", 4000)
 
-                local IsInWater = IsEntityInWater(player)
+
                 local timeLeft = Config.TimeToExpire
 
-                while timeLeft > 0 and not IsInWater do
+                while timeLeft > 0 and not IsEntityInWater(player) do
                     Wait(1000)
                     timeLeft = timeLeft - 1000
                     Dev("Time left: " .. timeLeft / 1000)
@@ -121,6 +114,7 @@ Citizen.CreateThread(function()
 
                 Dev("Time expired or player in water, resetting HasShot")
                 DecorSetBool(player, "HasShot", false)
+                Core.NotifyRightTip("You are now clean.", 4000)
             else
                 Dev("Player used lasso or bow, ignoring")
             end
