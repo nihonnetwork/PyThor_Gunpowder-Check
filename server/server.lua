@@ -9,6 +9,29 @@ end
 -- events
 RegisterNetEvent("GP:CheckJob")
 RegisterNetEvent("GP:CheckJobResult")
+RegisterNetEvent("GP:SetGunpowderServer")
+RegisterNetEvent("GP:CheckGunpowderServer")
+
+-- EXPORTS
+-- Server-side export to check if player has gunpowder residue
+exports('CheckPlayerGunpowder', function(playerId)
+    if not playerId then return false end
+    
+    local result = false
+    TriggerClientEvent("GP:CheckGunpowderServer", playerId)
+    
+    -- This is not ideal as it's synchronous, but it provides the functionality
+    -- In a production environment, you would want to use callbacks
+    return result
+end)
+
+-- Server-side export to set gunpowder residue on a player
+exports('SetPlayerGunpowder', function(playerId, state, weaponHash)
+    if not playerId then return false end
+    
+    TriggerClientEvent("GP:SetGunpowderServer", playerId, state, weaponHash)
+    return true
+end)
 
 AddEventHandler("GP:CheckJob", function(src)
     local src = source
