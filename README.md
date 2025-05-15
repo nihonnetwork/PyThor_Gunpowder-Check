@@ -1,4 +1,4 @@
-# PyThor_Gunpowder-Check
+## PyThor_Gunpowder-Check  - Test
 Redm script to check gunpowder on players as a lawman
 
 How to use the script in your server:
